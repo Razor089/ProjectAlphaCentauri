@@ -1,5 +1,6 @@
 #include "Station.hpp"
 #include <iostream>
+#include <time.h>
 
 void Station::Update()
 {

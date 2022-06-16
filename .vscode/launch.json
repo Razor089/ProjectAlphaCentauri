@@ -5,7 +5,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/SDL",
+            "program": "${workspaceFolder}/SDL_Project",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -13,8 +13,8 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "windows": {
-                "program": "${workspaceRoot}/SDL.exe",
-                "MIMode": "gdb"
+                "program": "${workspaceFolder}/SDL_Project.exe",
+                "MIMode": "gdb",
             }
         },
     ]

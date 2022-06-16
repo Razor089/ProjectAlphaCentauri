@@ -8,6 +8,7 @@
 #include "MessageHandler.hpp"
 #include <vector>
 #include <sstream>
+#include <time.h>
 
 #define FPS 60
 #define DELAY_TIME 1000/FPS

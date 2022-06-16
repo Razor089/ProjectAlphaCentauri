@@ -9,7 +9,7 @@
             "args": [
                 "${workspaceFolder}/*.cpp",
                 "-o",
-                "${workspaceFolder}/SDL",
+                "${workspaceFolder}/SDL_Project",
                 "-lSDL2",
                 "-lSDL2_image",
                 "-lSDL2_ttf"
@@ -26,9 +26,9 @@
                 "-LSDL/lib",
                 "*.cpp",
                 "-o",
-                "$SDL.exe",
+                "SDL_Project.exe",
                 "-lmingw32",
-                "-lSDL2_main",
+                "-lSDL2main",
                 "-lSDL2",
                 "-lSDL2_image",
                 "-lSDL2_ttf"
