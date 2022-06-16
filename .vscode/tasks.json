@@ -22,9 +22,11 @@
             "command": "g++",
             "problemMatcher": ["$gcc"],
             "args": [
-                "${workspaceFolder}/*.cpp",
+                "-ISDL/include",
+                "-LSDL/lib",
+                "*.cpp",
                 "-o",
-                "${workspaceFolder}/SDL.exe",
+                "$SDL.exe",
                 "-lmingw32",
                 "-lSDL2_main",
                 "-lSDL2",
@@ -32,6 +34,9 @@
                 "-lSDL2_ttf"
             ],
             "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
         }
     ]
 }
