@@ -13,7 +13,8 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "windows": {
-                "program": "${workspaceRoot}/SDL.exe"
+                "program": "${workspaceRoot}/SDL.exe",
+                "MIMode": "gdb"
             }
         },
     ]
