@@ -32,7 +32,22 @@ SDL_Texture* TextureManager::GetTexture(const char* filename)
 {
     return TextureMap[filename];
 }
-
+/**
+ * @brief Function that draw on screen a texture
+ * 
+ * @param id The Key of the texture
+ * @param x Destination x (final position) of the texture
+ * @param y Destination y (final postiion) of the texture
+ * @param width The width of the file
+ * @param height The heigth of the file
+ * @param dst_width The width dimension to attach the texture
+ * @param dst_height The height dimension to attach the texture
+ * @param currentRow The current row inside of the file to render (1 if there is only a image)
+ * @param currentFrame The current frame of the texture to rendere
+ * @param angle The angle of rotation of the texture
+ * @param pRenderer The renderer
+ * @param flip If the texture must be flipped or none
+ */
 void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int dst_width, int dst_height, int currentRow, int currentFrame, float angle, SDL_Renderer* pRenderer, SDL_RendererFlip flip)
 {
     SDL_Rect srcRect;
@@ -46,6 +61,14 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
     dstRect.x = x - (dst_width/2);
     dstRect.y = y - (dst_height/2);
 
+    if(TextureMap.count(id) == 1)
+    {
+        std::cout << "Texture : " << id << " founded with ref: " << TextureMap[id] << std::endl;
+    }
+    else 
+    {
+        std::cout << "Texture not registred" << std::endl;
+    }
     //std::cout << "Rendering : " << TextureMap[id] << std::endl;
     //std::cerr << "Angle: " << angle * 180/M_PI << std::endl;
     SDL_RenderCopyEx(pRenderer, TextureMap[id], &srcRect, &dstRect, ((angle + M_PI/2) * 180)/M_PI, NULL, flip);

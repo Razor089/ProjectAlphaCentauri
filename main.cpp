@@ -6,6 +6,8 @@
 #include "Station.hpp"
 #include "CollisionManager.hpp"
 #include "MessageHandler.hpp"
+#include "StateMachine.hpp"
+#include "MainMenuState.hpp"
 #include <vector>
 #include <sstream>
 #include <time.h>
@@ -18,6 +20,7 @@ const int NUM_ENEMIES = 10;
 int main(int argc, char* argv[])
 {
     Uint32 frameStart, frameTime;
+    StateMachine *state_machine;
 
     if(Engine::Instance()->Init() == false)
     {
@@ -87,12 +90,16 @@ int main(int argc, char* argv[])
     bool seeking = false;
     Vector seek_target;
 
+    state_machine = new StateMachine();
+    state_machine->ChangeState(new MainMenuState());
+
     while(Engine::Instance()->IsRunning)
     {
 
         frameStart = SDL_GetTicks();
 
         Engine::Instance()->HandleInputs();
+        /*
         if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_ESCAPE))
         {
             Engine::Instance()->IsRunning = false;
@@ -103,12 +110,12 @@ int main(int argc, char* argv[])
             seek_target = InputHandler::Instance()->GetMousePos();
             seeking = true;
         }
-
+        */
         Engine::Instance()->Clear();
 
         //CollisionManager::Instance()->CollisionBounds(enemy_list);
         //CollisionManager::Instance()->CollisionShip(entity, station->GetListFighters());
-
+        /*
         station->Alert(entity);
         station->Update();
 
@@ -138,6 +145,11 @@ int main(int argc, char* argv[])
         MessageHandler::Instance()->PrintText(Engine::Instance()->GetRenderer(), ss.str(), "Digital", Vector(112, 20));
         MessageHandler::Instance()->PrintText(Engine::Instance()->GetRenderer(), shield.str(), "Digital", Vector(112, 52));
         HUD_ship->Draw();
+
+        */
+        state_machine->Update();
+        state_machine->Execute();
+
         Engine::Instance()->Draw();
 
         //std::cout << "Distance: " << Vector::Distance(*station->GetPosition(), *entity->GetPosition());
