@@ -2,19 +2,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile",
+            "label": "My Task",
             "type": "cppbuild",
             "command": "g++",
             "problemMatcher": ["$gcc"],
             "args": [
-                "${workspaceFolder}/*.cpp",
+                "*.cpp",
                 "-o",
-                "${workspaceFolder}/SDL_Project",
+                "SDL_Project",
                 "-lSDL2",
                 "-lSDL2_image",
                 "-lSDL2_ttf"
             ],
-            "group": "build"
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
         },
         {
             "label": "Compile Windows",
