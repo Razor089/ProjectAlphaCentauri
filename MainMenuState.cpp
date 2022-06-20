@@ -14,6 +14,7 @@ void MainMenuState::Enter(StateMachine *sm)
 {
     TextureManager::Instance()->LoadTexture("graphic/interface_3_source/parts_w_effect/001.png", "FirstLayerMenu");
     TextureManager::Instance()->LoadTexture("graphic/interface_3_source/parts_w_effect/004.png", "SecondLayerMenu");
+    TextureManager::Instance()->LoadTexture("graphic/background_1.jpg", "Space_1");
     TextureManager::Instance()->LoadTexture("graphic/Button_1.png", "Button");
     TextureManager::Instance()->LoadTexture("graphic/Button_Selected.png", "Button_Selected");
     TextureManager::Instance()->LoadTexture("graphic/Button_Clicked.png", "Button_Clicked");
@@ -44,6 +45,8 @@ void MainMenuState::Enter(StateMachine *sm)
     background->SetPosition(Vector(WIDTH/2,HEIGHT/2));
     background->SetAnimated(true);
     background->SetTextSize(2048, 2048);
+    srand((int)time(0) * 20);
+    background->SetOriginPos((rand() % 2048)+1, (rand() % 2048) + 1);
     background->SetSize(WIDTH, HEIGHT);
 
     first_layer->SetPosition(Vector(WIDTH/2 + 100, HEIGHT/2));
