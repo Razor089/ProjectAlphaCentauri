@@ -30,29 +30,29 @@ public:
     Entity() : m_position(0,0),
                m_velocity(0,0),
                m_acceleration(0,0),
-               m_texture(""),
                size_x(0),
                size_y(0),
-               m_radius(0),
-               m_hit(false),
-               m_last_angle(0),
+               m_mass(0),
                m_max_speed(0),
                m_friction(0),
-               m_mass(0)
+               m_radius(0),
+               m_last_angle(0),
+               m_hit(false),
+               m_texture("")
     {}
 
     Entity(std::string texture) : m_position(0,0),
                                   m_velocity(0,0),
                                   m_acceleration(0,0),
-                                  m_texture(texture),
                                   size_x(0),
                                   size_y(0),
-                                  m_radius(0),
-                                  m_hit(false),
-                                  m_last_angle(0),
+                                  m_mass(0),
                                   m_max_speed(0),
                                   m_friction(0),
-                                  m_mass(0)
+                                  m_radius(0),
+                                  m_last_angle(0),
+                                  m_hit(false),
+                                  m_texture(texture)
     {}
 
     void SetTexture(std::string texture) { m_texture = texture; }

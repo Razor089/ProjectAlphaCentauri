@@ -28,6 +28,7 @@
                 "-ISDL/include",
                 "-LSDL/lib",
                 "*.cpp",
+                "-Wall",
                 "-o",
                 "bin/SDL_Project.exe",
                 "-lmingw32",

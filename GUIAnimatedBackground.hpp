@@ -4,6 +4,7 @@
 #include "GUIEntity.hpp"
 #include <string>
 #include <iostream>
+#include <time.h>
 
 class GUIAnimatedBackground : public GUIEntity
 {
@@ -16,19 +17,14 @@ private:
 public:
     GUIAnimatedBackground() : GUIEntity(), m_anim_speed(.4)
     {
-        srand((int)time(0));
-        m_vx = rand() % 2 == 0 ? 1 : -1;
-
-        srand((int)time(0) * 10);
-        m_vy = rand() % 2 == 0 ? 1 : -1; 
+        m_vx = 1;
+        m_vy = 1; 
     }
     GUIAnimatedBackground(std::string texture) : GUIEntity(texture), m_anim_speed(.4)
     {
-        srand((int)time(0));
-        m_vx = rand() % 2 == 0 ? 1 : -1;
-
-        srand((int)time(0) * 10);
-        m_vy = rand() % 2 == 0 ? 1 : -1; 
+ 
+        m_vx = 1;
+        m_vy = 1;
     }
 
     virtual void SetOriginPos(int src_x, int src_y) { m_src_x = src_x; m_src_y = src_y; }

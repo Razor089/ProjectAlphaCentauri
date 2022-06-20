@@ -42,7 +42,7 @@ void Entity::Move()
 
 void Entity::ApplyForce(Vector force)
 {
-    Vector update_force = Vector::Div(force, m_mass);
+    //Vector update_force = Vector::Div(force, m_mass);
     m_acceleration.Add(force);
 }
 

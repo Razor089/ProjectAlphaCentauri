@@ -61,16 +61,6 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
     dstRect.x = x - (dst_width/2);
     dstRect.y = y - (dst_height/2);
 
-    if(TextureMap.count(id) == 1)
-    {
-        //std::cout << "Texture : " << id << " founded with ref: " << TextureMap[id] << std::endl;
-    }
-    else 
-    {
-        std::cout << "Texture not registred" << std::endl;
-    }
-    //std::cout << "Rendering : " << TextureMap[id] << std::endl;
-    //std::cerr << "Angle: " << angle * 180/M_PI << std::endl;
     SDL_RenderCopyEx(pRenderer, TextureMap[id], &srcRect, &dstRect, ((angle + M_PI/2) * 180)/M_PI, NULL, flip);
 }
 
@@ -80,8 +70,10 @@ void TextureManager::DrawBackground(std::string id, int pos_x, int pos_y, float 
     SDL_Rect dstRect;
     srcRect.x = src_x;
     srcRect.y = src_y;
-    srcRect.w = dstRect.w = dst_width;
-    srcRect.h = dstRect.h = dst_height;
+    srcRect.w = width;
+    srcRect.h = height;
+    dstRect.w = dst_width;
+    dstRect.h = dst_height;
     dstRect.x = pos_x - (dst_width/2);
     dstRect.y = pos_y - (dst_height/2);
 
@@ -90,15 +82,6 @@ void TextureManager::DrawBackground(std::string id, int pos_x, int pos_y, float 
 
 void TextureManager::DrawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* renderer)
 {
-    /*
-    std::cout << "Draw Call on " << id << std::endl;
-    std::cout << "Margin: " << margin << std::endl;
-    std::cout << "Spacing: " << spacing << std::endl;
-    std::cout << "X: " << x << std::endl;
-    std::cout << "Y: " << y << std::endl;
-    std::cout << "Width: " << width << std::endl;
-    std::cout << "Height: " << height << std::endl;
-    */
     SDL_Rect srcRect;
     SDL_Rect dstRect;
 

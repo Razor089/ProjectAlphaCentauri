@@ -6,6 +6,7 @@
 #include "Station.hpp"
 #include <string>
 #include <sstream>
+#include <time.h>
 
 void PlayState::Enter(StateMachine *sm)
 {

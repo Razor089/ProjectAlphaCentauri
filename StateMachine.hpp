@@ -2,11 +2,12 @@
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 #include "State.hpp"
+#include <iostream>
 
 class StateMachine
 {
 public:
-    StateMachine() {}
+    StateMachine() : m_current(0) {}
 
     void ChangeState(State<StateMachine> *state);
     void Update();

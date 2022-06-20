@@ -41,7 +41,7 @@ bool Engine::Init()
         std::cout << "Cannot Initialize SDL_TTF; Error: " << SDL_GetError() << std::endl;
         return false;
     }
-
+    std::cout << "Init Success!" << std::endl;
     return true;
 }
 

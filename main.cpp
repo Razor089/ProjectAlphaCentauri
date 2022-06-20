@@ -36,9 +36,8 @@ int main(int argc, char* argv[])
         frameStart = SDL_GetTicks();
 
         Engine::Instance()->HandleInputs();
-        Engine::Instance()->GetStateMachine()->Update();
         Engine::Instance()->Clear();
-
+        Engine::Instance()->GetStateMachine()->Update();
         //CollisionManager::Instance()->CollisionBounds(enemy_list);
         //CollisionManager::Instance()->CollisionShip(entity, station->GetListFighters());
 

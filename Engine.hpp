@@ -32,8 +32,8 @@ public:
 private:
     Engine() : window(NULL),
                renderer(NULL),
-               IsRunning(true),
-               m_stateMachine(0)
+               m_stateMachine(0),
+               IsRunning(true)
     {}
 };
 

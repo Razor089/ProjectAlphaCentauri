@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/bin/SDL_Project",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/bin",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",

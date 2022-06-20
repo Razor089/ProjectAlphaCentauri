@@ -22,19 +22,19 @@ protected:
     bool m_animated;
 public:
     GUIEntity() : m_position(0,0),
-                  m_num_frames(1),
-                  m_animated(false),
+                  m_texture(""),
                   m_src_x(0),
                   m_src_y(0),
-                  m_texture("")
+                  m_num_frames(1),
+                  m_animated(false)
     {}
 
     GUIEntity(std::string texture) : m_position(0,0),
-                                     m_num_frames(1),
-                                     m_animated(false),
+                                     m_texture(texture),
                                      m_src_x(0),
                                      m_src_y(0),
-                                     m_texture(texture)
+                                     m_num_frames(1),
+                                     m_animated(false)
     {}
 
     void SetTexture(std::string texture) { m_texture = texture; }

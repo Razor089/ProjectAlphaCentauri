@@ -41,7 +41,6 @@ void Station::Draw()
 void Station::Alert(Entity *target)
 {
     float dist = Vector::Distance(*target->GetPosition(), m_position);
-    //std::cout << "Dist: " << dist << " IsSpanw: " << IsSpawnDefense() << std::endl;
     if(dist <= 210 && !IsSpawnDefense())
     {
         // Spawn Defense
@@ -65,8 +64,5 @@ void Station::SpawnDefense()
         fighter->SetMaxSpeed(10);
         fighter->SetMass(5);
         m_fighters.push_back(fighter);
-        std::cout << "Fighter [" << i << "]: " << x << " " << y << std::endl;
     }
-
-    std::cout << "Fighters Size: " << m_fighters.size() << std::endl;
 }

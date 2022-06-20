@@ -9,6 +9,7 @@
 #include "ActionNewGame.hpp"
 #include "GUIAnimatedBackground.hpp"
 #include <iostream>
+#include <time.h>
 
 void MainMenuState::Enter(StateMachine *sm)
 {
@@ -44,9 +45,8 @@ void MainMenuState::Enter(StateMachine *sm)
 
     background->SetPosition(Vector(WIDTH/2,HEIGHT/2));
     background->SetAnimated(true);
-    background->SetTextSize(2048, 2048);
-    srand((int)time(0) * 20);
-    background->SetOriginPos((rand() % 2048)+1, (rand() % 2048) + 1);
+    background->SetTextSize(WIDTH, HEIGHT);
+    background->SetOriginPos(0,0);
     background->SetSize(WIDTH, HEIGHT);
 
     first_layer->SetPosition(Vector(WIDTH/2 + 100, HEIGHT/2));
