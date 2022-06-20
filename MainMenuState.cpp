@@ -6,6 +6,7 @@
 #include "GUIButton.hpp"
 #include "ActionManager.hpp"
 #include "ActionExit.hpp"
+#include "ActionNewGame.hpp"
 #include "GUIAnimatedBackground.hpp"
 #include <iostream>
 
@@ -22,6 +23,7 @@ void MainMenuState::Enter(StateMachine *sm)
     MessageHandler::Instance()->LoadFont("font/ExonRegular.otf", 20, "DetailFont");
 
     ActionManager::Instance()->RegisterAction("ActionExit", new ActionExit());
+    ActionManager::Instance()->RegisterAction("ActionNewGame", new ActionNewGame());
 
     GUIAnimatedBackground *background = new GUIAnimatedBackground("Space_1");
     GUIEntity *first_layer = new GUIEntity("FirstLayerMenu");
@@ -32,6 +34,7 @@ void MainMenuState::Enter(StateMachine *sm)
     new_game_button->SetPosition(Vector(WIDTH/2, 200));
     new_game_button->SetOriginSize(1112, 354);
     new_game_button->SetSize(250, 70);
+    new_game_button->SetAction(ActionManager::Instance()->GetAction("ActionNewGame"));
 
     exit_button->SetPosition(Vector(WIDTH/2, 280));
     exit_button->SetOriginSize(1112, 354);

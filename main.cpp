@@ -36,24 +36,6 @@ int main(int argc, char* argv[])
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
-    Entity *entity = new Entity();
-    entity->SetPosition(Vector(WIDTH/2, HEIGHT/2));
-    entity->SetSize(62, 64);
-    entity->SetRadius(40);
-    entity->SetMaxSpeed(7);
-    entity->SetMass(10);
-    entity->SetCoefficentFriction(0.05);
-    entity->SetTexture("Ship");
-
-    Entity *HUD_ship = new Entity();
-    HUD_ship->SetPosition(Vector(61, 62));
-    HUD_ship->SetSize(82, 84);
-    HUD_ship->SetTexture("Ship");
-
-    Entity *background = new Entity("Space_1");
-    background->SetPosition(Vector(WIDTH/2, HEIGHT/2));
-    background->SetSize(1280,1280);
-
     /*
     *******************************
         Setting enemies
@@ -79,19 +61,10 @@ int main(int argc, char* argv[])
         enemy_list.push_back(enemy);
     }
 
-    srand((int)time(0) * 20);
-    Station *station = new Station();
-    int size = 350;
-    station->SetSize(size, size);
-    station->SetTexture("Station");
-    station->SetPosition(Vector((rand() % (WIDTH - size)) + size, (rand() % (HEIGHT - size)) + size));
-    station->SetRotationSpeed(.2);
-
-    bool seeking = false;
-    Vector seek_target;
-
     state_machine = new StateMachine();
     state_machine->ChangeState(new MainMenuState());
+
+    Engine::Instance()->SetStateMachine(state_machine);
 
     while(Engine::Instance()->IsRunning)
     {
@@ -147,8 +120,8 @@ int main(int argc, char* argv[])
         HUD_ship->Draw();
 
         */
-        state_machine->Update();
-        state_machine->Execute();
+        Engine::Instance()->GetStateMachine()->Update();
+        Engine::Instance()->GetStateMachine()->Execute();
 
         Engine::Instance()->Draw();
 
@@ -161,9 +134,6 @@ int main(int argc, char* argv[])
             SDL_Delay((int)(DELAY_TIME - frameTime));
         }
     }
-    delete entity;
-    delete background;
-    delete station;
     for(int i = 0; i < NUM_ENEMIES; ++i)
     {
         delete enemy_list[i];

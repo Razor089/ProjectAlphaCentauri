@@ -4,6 +4,7 @@
 
 void Station::Update()
 {
+    Alert(m_target);
     m_last_angle = m_rotation_speed * ((float)SDL_GetTicks() / 1000);
 
     if(m_fighters.size() > 0)
