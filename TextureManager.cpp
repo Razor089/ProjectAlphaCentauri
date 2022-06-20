@@ -63,7 +63,7 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
 
     if(TextureMap.count(id) == 1)
     {
-        std::cout << "Texture : " << id << " founded with ref: " << TextureMap[id] << std::endl;
+        //std::cout << "Texture : " << id << " founded with ref: " << TextureMap[id] << std::endl;
     }
     else 
     {
@@ -74,16 +74,14 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
     SDL_RenderCopyEx(pRenderer, TextureMap[id], &srcRect, &dstRect, ((angle + M_PI/2) * 180)/M_PI, NULL, flip);
 }
 
-void TextureManager::DrawBackground(std::string id, int pos_x, int pos_y, int src_x, int src_y, int width, int height, int dst_width, int dst_height, SDL_Renderer *pRenderer, SDL_RendererFlip flip)
+void TextureManager::DrawBackground(std::string id, int pos_x, int pos_y, float src_x, float src_y, int width, int height, float dst_width, float dst_height, SDL_Renderer *pRenderer, SDL_RendererFlip flip)
 {
     SDL_Rect srcRect;
     SDL_Rect dstRect;
     srcRect.x = src_x;
     srcRect.y = src_y;
-    srcRect.w = dst_width;
-    srcRect.h = dst_height;
-    dstRect.w = dst_width;
-    dstRect.h = dst_height;
+    srcRect.w = dstRect.w = dst_width;
+    srcRect.h = dstRect.h = dst_height;
     dstRect.x = pos_x - (dst_width/2);
     dstRect.y = pos_y - (dst_height/2);
 

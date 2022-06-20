@@ -11,14 +11,11 @@ protected:
 
     std::string m_texture;
 
-    int m_size_x;
-    int m_size_y;
+    float m_size_x;
+    float m_size_y;
 
-    int m_src_x;
-    int m_src_y;
-
-    int m_width;
-    int m_height;
+    float m_src_x;
+    float m_src_y;
 
     int m_num_frames;
 
@@ -41,8 +38,8 @@ public:
     {}
 
     void SetTexture(std::string texture) { m_texture = texture; }
-    void SetSize(int size_x, int size_y) { m_size_x = size_x; m_size_y = size_y; }
-    void SetOriginSize(int size_x, int size_y) { m_src_x = size_x; m_src_y = size_y; }
+    virtual void SetSize(int size_x, int size_y) { m_size_x = size_x; m_size_y = size_y; }
+    virtual void SetOriginSize(int size_x, int size_y) { m_src_x = size_x; m_src_y = size_y; }
     void SetPosition(Vector position) { m_position = position; }
     void SetNumFrames(int num_frames) { m_num_frames = num_frames; }
     void SetAnimated(bool value) { m_animated = value; }

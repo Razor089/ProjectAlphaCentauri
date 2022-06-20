@@ -40,8 +40,8 @@ void MainMenuState::Enter(StateMachine *sm)
 
     background->SetPosition(Vector(WIDTH/2,HEIGHT/2));
     background->SetAnimated(true);
-    background->SetOriginSize(2048,2048);
-    background->SetSize(WIDTH, WIDTH);
+    background->SetTextSize(2048, 2048);
+    background->SetSize(WIDTH, HEIGHT);
 
     first_layer->SetPosition(Vector(WIDTH/2 + 100, HEIGHT/2));
     first_layer->SetOriginSize(2048, 2048);
