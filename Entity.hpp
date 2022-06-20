@@ -26,6 +26,7 @@ protected:
     bool m_hit;
 
     std::string m_texture;
+    std::string m_tag;
 public:
     Entity() : m_position(0,0),
                m_velocity(0,0),
@@ -38,7 +39,8 @@ public:
                m_radius(0),
                m_last_angle(0),
                m_hit(false),
-               m_texture("")
+               m_texture(""),
+               m_tag("Entity")
     {}
 
     Entity(std::string texture) : m_position(0,0),
@@ -52,7 +54,8 @@ public:
                                   m_radius(0),
                                   m_last_angle(0),
                                   m_hit(false),
-                                  m_texture(texture)
+                                  m_texture(texture),
+                                  m_tag("Entity")
     {}
 
     void SetTexture(std::string texture) { m_texture = texture; }
@@ -73,6 +76,7 @@ public:
     void SetMaxSpeed(int max_speed) { m_max_speed = max_speed; }
     void SetCoefficentFriction(float coefficent) { m_friction = coefficent; }
     void SetMass(int mass) { m_mass = mass; }
+    void SetTag(std::string tag) { m_tag = tag; }
     
     void SetHit(bool hit) { m_hit = hit; }
     bool IsHit() { return m_hit; }
@@ -85,6 +89,7 @@ public:
     int GetMaxSpeed() { return m_max_speed; }
     float GetCoefficentFriction() { return m_friction; }
     int GetMass() { return m_mass; }
+    std::string GetTag() { return m_tag; }
 };
 
 #endif // !ENTITY_H

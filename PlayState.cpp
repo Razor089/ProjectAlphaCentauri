@@ -15,6 +15,7 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/background_1.jpg", "Space_1");
     TextureManager::Instance()->LoadTexture("graphic/shipyard.png", "Shipyard");
     TextureManager::Instance()->LoadTexture("graphic/centrifugal_station.png", "Station");
+    TextureManager::Instance()->LoadTexture("graphic/Selezione.png", "Selection");
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
@@ -41,6 +42,7 @@ void PlayState::Enter(StateMachine *sm)
     Station *station = new Station();
     int size = 350;
     station->SetSize(size, size);
+    station->SetTag("Enemy");
     station->SetTexture("Station");
     station->SetPosition(Vector((rand() % (WIDTH - size)) + size, (rand() % (HEIGHT - size)) + size));
     station->SetRotationSpeed(.2);
@@ -52,6 +54,7 @@ void PlayState::Enter(StateMachine *sm)
     m_list_entity.push_back(HUD_ship);
 
     m_seeking = false;
+    m_targeting = false;
 }
 
 void PlayState::Update(StateMachine *sm)
@@ -59,7 +62,17 @@ void PlayState::Update(StateMachine *sm)
 
     if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_ESCAPE))
     {
+        m_targeting = false;
+    }
+
+    if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_Q))
+    {
         Engine::Instance()->IsRunning = false;
+    }
+
+    if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_R))
+    {
+        m_targeting = true;
     }
 
     if(InputHandler::Instance()->IsMousePressed())
@@ -71,6 +84,11 @@ void PlayState::Update(StateMachine *sm)
     if(m_seeking)
     {
         m_player->Seek(m_seek_target);
+    }
+
+    if(m_targeting)
+    {
+        m_selected_target = *GetEntityByTag("Enemy")->GetPosition();
     }
 
     if(Vector::Distance(m_seek_target, *m_player->GetPosition()) <= 10 && m_seeking)
@@ -94,6 +112,10 @@ void PlayState::Execute(StateMachine *sm)
     {
         (*it)->Draw();
     }
+    if(m_targeting)
+    {
+        TextureManager::Instance()->DrawFrame("Selection", m_selected_target.x, m_selected_target.y, 465, 465, 150, 150, 1, 0, 0.785398, Engine::Instance()->GetRenderer());
+    }
 
     std::stringstream ss, shield;
     ss << "Hull: " << 100 << "%";
@@ -105,4 +127,13 @@ void PlayState::Execute(StateMachine *sm)
 void PlayState::Exit(StateMachine *sm)
 {
 
+}
+
+Entity *PlayState::GetEntityByTag(std::string tag)
+{
+    for(std::vector<Entity *>::iterator it = m_list_entity.begin(); it != m_list_entity.end(); ++it)
+    {
+        if((*it)->GetTag() == tag) return (*it);
+    }
+    return NULL;
 }

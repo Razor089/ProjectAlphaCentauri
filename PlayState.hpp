@@ -19,8 +19,12 @@ public:
 
     std::vector<Entity *> m_list_entity;
 private:
+    Entity *GetEntityByTag(std::string tag);
+
     bool m_seeking;
+    bool m_targeting;
     Vector m_seek_target;
+    Vector m_selected_target;
 
     Entity *m_player;
 };
