@@ -15,8 +15,6 @@
 #define FPS 60
 #define DELAY_TIME 1000/FPS
 
-const int NUM_ENEMIES = 10;
-
 int main(int argc, char* argv[])
 {
     Uint32 frameStart, frameTime;
