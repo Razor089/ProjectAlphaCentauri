@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "My Task",
+            "label": "Compile Mac OS X",
             "type": "cppbuild",
             "command": "g++",
             "problemMatcher": ["$gcc"],

@@ -8,6 +8,12 @@
 #include <SDL2/SDL_ttf.h>
 #include "Vector.hpp"
 
+enum Mode
+{
+    CORNER,
+    CENTER
+};
+
 class MessageHandler
 {
 private:
@@ -24,7 +30,7 @@ public:
     }
 
     void LoadFont(std::string nome_file, int size, std::string key);
-    void PrintText(SDL_Renderer *renderer ,std::string message, std::string font_name, Vector position);
+    void PrintText(SDL_Renderer *renderer ,std::string message, std::string font_name, Vector position, int mode = CORNER);
 };
 
 #endif

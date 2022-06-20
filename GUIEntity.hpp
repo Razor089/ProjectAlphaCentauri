@@ -6,7 +6,7 @@
 
 class GUIEntity
 {
-private:
+protected:
     Vector m_position;
 
     std::string m_texture;
@@ -17,15 +17,26 @@ private:
     int m_src_x;
     int m_src_y;
 
+    int m_width;
+    int m_height;
+
     int m_num_frames;
 
-    // action
+    bool m_animated;
 public:
     GUIEntity() : m_position(0,0),
+                  m_num_frames(1),
+                  m_animated(false),
+                  m_src_x(0),
+                  m_src_y(0),
                   m_texture("")
     {}
 
     GUIEntity(std::string texture) : m_position(0,0),
+                                     m_num_frames(1),
+                                     m_animated(false),
+                                     m_src_x(0),
+                                     m_src_y(0),
                                      m_texture(texture)
     {}
 
@@ -34,11 +45,13 @@ public:
     void SetOriginSize(int size_x, int size_y) { m_src_x = size_x; m_src_y = size_y; }
     void SetPosition(Vector position) { m_position = position; }
     void SetNumFrames(int num_frames) { m_num_frames = num_frames; }
+    void SetAnimated(bool value) { m_animated = value; }
 
     std::string GetTexture() { return m_texture; }
     Vector GetPosition() { return m_position; }
 
-    void Draw();
+    virtual void Update();
+    virtual void Draw();
 };
 
 #endif

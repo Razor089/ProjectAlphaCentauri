@@ -9,6 +9,7 @@
 class MainMenuState : public State<StateMachine>
 {
 public:
+    MainMenuState() {}
     void Enter(StateMachine *sm);
     void Update(StateMachine *sm);
     void Execute(StateMachine *sm);
