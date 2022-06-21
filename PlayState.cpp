@@ -16,6 +16,7 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/shipyard.png", "Shipyard");
     TextureManager::Instance()->LoadTexture("graphic/centrifugal_station.png", "Station");
     TextureManager::Instance()->LoadTexture("graphic/Selezione.png", "Selection");
+    TextureManager::Instance()->LoadTexture("graphic/frozenmoons/missile1.png", "Missile");
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
@@ -73,6 +74,23 @@ void PlayState::Update(StateMachine *sm)
     if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_R))
     {
         m_targeting = true;
+    }
+
+    if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_SPACE))
+    {
+        if(m_player->CanFire())
+        {
+            m_player->SetFire(false);
+            std::cout << "FIRE!" << std::endl;
+        }
+    }
+    else 
+    {
+        if(!m_player->CanFire())
+        {
+            m_player->SetFire(true);
+            std::cout << "We can fire again" << std::endl;
+        }
     }
 
     if(InputHandler::Instance()->IsMousePressed())

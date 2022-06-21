@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+const int MAX_AMMO = 20;
+
 class Entity
 {
 protected:
@@ -24,6 +26,13 @@ protected:
     float m_last_angle;
 
     bool m_hit;
+    bool m_can_fire;
+
+    int m_ammo;
+
+    Vector m_target;
+
+    bool m_await_input;
 
     std::string m_texture;
     std::string m_tag;
@@ -39,6 +48,10 @@ public:
                m_radius(0),
                m_last_angle(0),
                m_hit(false),
+               m_can_fire(true),
+               m_ammo(80),
+               m_target(),
+               m_await_input(false),
                m_texture(""),
                m_tag("Entity")
     {}
@@ -54,6 +67,10 @@ public:
                                   m_radius(0),
                                   m_last_angle(0),
                                   m_hit(false),
+                                  m_can_fire(true),
+                                  m_ammo(80),
+                                  m_target(),
+                                  m_await_input(false),
                                   m_texture(texture),
                                   m_tag("Entity")
     {}
@@ -79,7 +96,13 @@ public:
     void SetTag(std::string tag) { m_tag = tag; }
     
     void SetHit(bool hit) { m_hit = hit; }
-    bool IsHit() { return m_hit; }
+    bool IsHit() const { return m_hit; }
+
+    void SetFire(bool value) { m_can_fire = value; }
+    bool CanFire() const { return m_can_fire; }
+
+    void SetAmmo(int ammo) { m_ammo = ammo; }
+    int GetAmmo() const { return m_ammo; }
 
     Vector *GetPosition() { return &m_position; }
     Vector *GetVelocity() { return &m_velocity; }

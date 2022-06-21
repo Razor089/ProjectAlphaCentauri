@@ -16,6 +16,9 @@ public:
     virtual void Update(StateMachine *sm);
     virtual void Execute(StateMachine *sm);
     virtual void Exit(StateMachine *sm);
+    
+    std::vector<Entity *> *GetListEntities() { return &m_list_entity; }
+    Vector GetSelectedTarget() { return m_selected_target; }
 
     std::vector<Entity *> m_list_entity;
 private:

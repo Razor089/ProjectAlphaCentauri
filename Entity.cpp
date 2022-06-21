@@ -1,6 +1,9 @@
 #include "Entity.hpp"
 #include "Engine.hpp"
 #include "TextureManager.hpp"
+#include "InputHandler.hpp"
+#include "PlayState.hpp"
+#include "Missile.hpp"
 #include <iostream>
 
 void Entity::Draw()
@@ -10,6 +13,7 @@ void Entity::Draw()
 
 void Entity::Update()
 {   
+
     Vector drag = Vector::Mult(m_velocity, -1);
     drag.Normalize();
     drag.Mult(m_friction);

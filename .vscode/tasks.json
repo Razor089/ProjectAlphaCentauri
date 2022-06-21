@@ -8,6 +8,7 @@
             "problemMatcher": ["$gcc"],
             "args": [
                 "*.cpp",
+                "-Wall",
                 "-o",
                 "bin/SDL_Project",
                 "-lSDL2",
