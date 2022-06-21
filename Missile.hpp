@@ -11,12 +11,12 @@ private:
 
     int m_time_to_live;
 public:
-    Missile() : Entity(), m_target(), m_time_to_live(600) 
+    Missile() : Entity(), m_target(), m_time_to_live(300) 
     {
         m_tag = "Missile";
     }
 
-    Missile(std::string texture, Vector target) : Entity(texture), m_target(target), m_time_to_live(600) 
+    Missile(std::string texture, Vector target) : Entity(texture), m_target(target), m_time_to_live(300) 
     {
         m_tag = "Missile";
     }

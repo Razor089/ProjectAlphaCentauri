@@ -4,6 +4,7 @@
 #include "InputHandler.hpp"
 #include "Engine.hpp"
 #include "Station.hpp"
+#include "Missile.hpp"
 #include <string>
 #include <sstream>
 #include <time.h>
@@ -78,10 +79,15 @@ void PlayState::Update(StateMachine *sm)
 
     if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_SPACE))
     {
-        if(m_player->CanFire())
+        if(m_player->CanFire() && m_targeting)
         {
             m_player->SetFire(false);
             std::cout << "FIRE!" << std::endl;
+            Missile *missile = new Missile("Missile", m_selected_target);
+            missile->SetPosition(*m_player->GetPosition());
+            missile->SetSize(9, 20);
+            missile->SetMaxSpeed(10);
+            m_list_entity.push_back(missile);
         }
     }
     else 
