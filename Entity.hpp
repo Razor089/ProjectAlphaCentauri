@@ -94,6 +94,7 @@ public:
     void SetCoefficentFriction(float coefficent) { m_friction = coefficent; }
     void SetMass(int mass) { m_mass = mass; }
     void SetTag(std::string tag) { m_tag = tag; }
+    void SetAngle(float angle) { m_last_angle = angle; }
     
     void SetHit(bool hit) { m_hit = hit; }
     bool IsHit() const { return m_hit; }
@@ -112,6 +113,7 @@ public:
     int GetMaxSpeed() { return m_max_speed; }
     float GetCoefficentFriction() { return m_friction; }
     int GetMass() { return m_mass; }
+    float GetAngle() const { return m_last_angle; }
     std::string GetTag() { return m_tag; }
 };
 

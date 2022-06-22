@@ -79,6 +79,33 @@ void PlayState::Update(StateMachine *sm)
 
     if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_SPACE))
     {
+        if(m_player->CanFire())
+        {
+            Missile *missile = new Missile();
+            Vector position = *m_player->GetPosition();
+            //position.y += 50;
+            float angle = m_player->GetAngle();
+            position.x += cos(angle + M_PI_2) * 30;
+            position.y += sin(angle + M_PI_2) * 30;
+            missile->SetAngle(angle + M_PI_2);
+            missile->SetPosition(position);
+            missile->SetTexture("Missile");
+            missile->SetSize(9, 20);
+            
+            Missile *missile_2 = new Missile();
+            position = *m_player->GetPosition();
+            //position.y -= 50;
+            position.x -= cos(angle + M_PI_2) * 30;
+            position.y -= sin(angle + M_PI_2) * 30;
+            missile_2->SetAngle(angle - M_PI_2);
+            missile_2->SetPosition(position);
+            missile_2->SetTexture("Missile");
+            missile_2->SetSize(9, 20);
+
+            m_list_entity.push_back(missile);
+            m_list_entity.push_back(missile_2);
+        }
+        /*
         if(m_player->CanFire() && m_targeting)
         {
             m_player->SetFire(false);
@@ -89,6 +116,7 @@ void PlayState::Update(StateMachine *sm)
             missile->SetMaxSpeed(10);
             m_list_entity.push_back(missile);
         }
+        */
     }
     else 
     {
