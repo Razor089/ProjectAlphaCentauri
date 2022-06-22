@@ -10,13 +10,14 @@ private:
     Vector m_target;
 
     int m_time_to_live;
+    int m_delay;
 public:
-    Missile() : Entity(), m_target(), m_time_to_live(300) 
+    Missile() : Entity(), m_target(), m_time_to_live(300), m_delay(100) 
     {
         m_tag = "Missile";
     }
 
-    Missile(std::string texture, Vector target) : Entity(texture), m_target(target), m_time_to_live(300) 
+    Missile(std::string texture, Vector target) : Entity(texture), m_target(target), m_time_to_live(300), m_delay(100) 
     {
         m_tag = "Missile";
     }

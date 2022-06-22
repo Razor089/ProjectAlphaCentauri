@@ -29,6 +29,8 @@ private:
     Vector m_seek_target;
     Vector m_selected_target;
 
+    int m_fire_delay;
+
     Entity *m_player;
 };
 

@@ -8,6 +8,10 @@
 #include <string>
 #include <sstream>
 #include <time.h>
+#ifdef __WINDOWS__
+#define _USE_MATH_DEFINES
+#include <math.h>
+#endif
 
 void PlayState::Enter(StateMachine *sm)
 {
@@ -57,6 +61,8 @@ void PlayState::Enter(StateMachine *sm)
 
     m_seeking = false;
     m_targeting = false;
+
+    m_fire_delay = 30;
 }
 
 void PlayState::Update(StateMachine *sm)
@@ -81,29 +87,43 @@ void PlayState::Update(StateMachine *sm)
     {
         if(m_player->CanFire())
         {
-            Missile *missile = new Missile();
-            Vector position = *m_player->GetPosition();
-            //position.y += 50;
-            float angle = m_player->GetAngle();
-            position.x += cos(angle + M_PI_2) * 30;
-            position.y += sin(angle + M_PI_2) * 30;
-            missile->SetAngle(angle + M_PI_2);
-            missile->SetPosition(position);
-            missile->SetTexture("Missile");
-            missile->SetSize(9, 20);
-            
-            Missile *missile_2 = new Missile();
-            position = *m_player->GetPosition();
-            //position.y -= 50;
-            position.x -= cos(angle + M_PI_2) * 30;
-            position.y -= sin(angle + M_PI_2) * 30;
-            missile_2->SetAngle(angle - M_PI_2);
-            missile_2->SetPosition(position);
-            missile_2->SetTexture("Missile");
-            missile_2->SetSize(9, 20);
+            if(m_fire_delay % 30 == 0)
+            {
+                Missile *missile = new Missile("Missile", m_selected_target);
+                Vector position = *m_player->GetPosition();
+                //position.y += 50;
+                float angle = m_player->GetAngle();
+                std::cout << "Angle: " << angle << std::endl;
+                position.x += cos(angle + M_PI_2) * 30;
+                position.y += sin(angle + M_PI_2) * 30;
+                Vector velocity = m_player->GetVelocity()->Copy();
+                velocity.x += cos(-M_PI_2) * 2;
+                velocity.y += sin(-M_PI_2) * 2;
 
-            m_list_entity.push_back(missile);
-            m_list_entity.push_back(missile_2);
+                missile->SetAngle(angle + M_PI_2);
+                missile->SetPosition(position);
+                missile->SetMaxSpeed(15);
+                missile->SetVelocity(velocity);
+                //missile->SetTexture("Missile");
+                missile->SetSize(9, 20);
+            
+                Missile *missile_2 = new Missile("Missile", m_selected_target);
+                position = *m_player->GetPosition();
+                //position.y -= 50;
+                position.x -= cos(angle + M_PI_2) * 30;
+                position.y -= sin(angle + M_PI_2) * 30;
+                velocity.Mult(-1);
+                missile_2->SetAngle(angle - M_PI_2);
+                missile_2->SetPosition(position);
+                missile_2->SetMaxSpeed(10);
+                missile_2->SetVelocity(velocity);
+                //missile_2->SetTexture("Missile");
+                missile_2->SetSize(9, 20);
+
+                m_list_entity.push_back(missile);
+                m_list_entity.push_back(missile_2);
+            }
+            m_fire_delay++;
         }
         /*
         if(m_player->CanFire() && m_targeting)
@@ -123,6 +143,7 @@ void PlayState::Update(StateMachine *sm)
         if(!m_player->CanFire())
         {
             m_player->SetFire(true);
+            m_fire_delay = 30;
             std::cout << "We can fire again" << std::endl;
         }
     }
