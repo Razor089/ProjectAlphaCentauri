@@ -21,6 +21,7 @@ protected:
 
     int m_max_speed;
     float m_friction;
+    float m_max_force;
 
     float m_radius;
     float m_last_angle;
@@ -45,6 +46,7 @@ public:
                m_mass(0),
                m_max_speed(0),
                m_friction(0),
+               m_max_force(.2),
                m_radius(0),
                m_last_angle(0),
                m_hit(false),
@@ -64,6 +66,7 @@ public:
                                   m_mass(0),
                                   m_max_speed(0),
                                   m_friction(0),
+                                  m_max_force(.2),
                                   m_radius(0),
                                   m_last_angle(0),
                                   m_hit(false),
@@ -95,6 +98,7 @@ public:
     void SetMass(int mass) { m_mass = mass; }
     void SetTag(std::string tag) { m_tag = tag; }
     void SetAngle(float angle) { m_last_angle = angle; }
+    void SetMaxForce(float force) { m_max_force = force; }
     
     void SetHit(bool hit) { m_hit = hit; }
     bool IsHit() const { return m_hit; }
@@ -114,6 +118,7 @@ public:
     float GetCoefficentFriction() { return m_friction; }
     int GetMass() { return m_mass; }
     float GetAngle() const { return m_last_angle; }
+    float GetMaxForce() const { return m_max_force; }
     std::string GetTag() { return m_tag; }
 };
 

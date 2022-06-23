@@ -1,7 +1,11 @@
 #include "Missile.hpp"
+#include "ParticleManager.hpp"
 
 void Missile::Update()
 {
+    ParticleManager::Instance()->GetParticle("MissileTrail")->SetOrigin(m_position);
+    ParticleManager::Instance()->GetParticle("MissileTrail")->AddParticle();
+    ParticleManager::Instance()->GetParticle("MissileTrail")->Update();
     if(m_velocity.Length() != 0)
     {
         m_last_angle = m_velocity.Heading();
@@ -23,5 +27,6 @@ void Missile::Update()
 
 void Missile::Draw()
 {
+    ParticleManager::Instance()->GetParticle("MissileTrail")->Draw();
     Entity::Draw();
 }

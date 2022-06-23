@@ -32,7 +32,7 @@ void Entity::Seek(Vector target)
     desired.Normalize();
     desired.Mult(5);
     Vector steer = Vector::Sub(desired, m_velocity);
-    steer.Limit(.2);
+    steer.Limit(m_max_force);
     ApplyForce(steer);
 }
 

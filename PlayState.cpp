@@ -2,6 +2,7 @@
 #include "TextureManager.hpp"
 #include "MessageHandler.hpp"
 #include "InputHandler.hpp"
+#include "ParticleManager.hpp"
 #include "Engine.hpp"
 #include "Station.hpp"
 #include "Missile.hpp"
@@ -13,6 +14,10 @@
 #include <math.h>
 #endif
 
+const int NUM_MISSILES = 5;
+int fired_missiles = 0;
+bool fire = false;
+
 void PlayState::Enter(StateMachine *sm)
 {
     TextureManager::Instance()->LoadTexture("graphic/ship.png", "Ship");
@@ -22,6 +27,7 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/centrifugal_station.png", "Station");
     TextureManager::Instance()->LoadTexture("graphic/Selezione.png", "Selection");
     TextureManager::Instance()->LoadTexture("graphic/frozenmoons/missile1.png", "Missile");
+    TextureManager::Instance()->LoadTexture("graphic/frozenmoons/shield2.png", "MissileTrail");
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
@@ -62,7 +68,9 @@ void PlayState::Enter(StateMachine *sm)
     m_seeking = false;
     m_targeting = false;
 
-    m_fire_delay = 30;
+    m_fire_delay = 10;
+
+    ParticleManager::Instance()->AddParticle("MissileTrail", new ParticleSystem("MissileTrail"));
 }
 
 void PlayState::Update(StateMachine *sm)
@@ -85,68 +93,80 @@ void PlayState::Update(StateMachine *sm)
 
     if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_SPACE))
     {
-        if(m_player->CanFire())
-        {
-            if(m_fire_delay % 30 == 0)
-            {
-                Missile *missile = new Missile("Missile", m_selected_target);
-                Vector position = *m_player->GetPosition();
-                //position.y += 50;
-                float angle = m_player->GetAngle();
-                std::cout << "Angle: " << angle << std::endl;
-                position.x += cos(angle + M_PI_2) * 30;
-                position.y += sin(angle + M_PI_2) * 30;
-                Vector velocity = m_player->GetVelocity()->Copy();
-                velocity.x += cos(-M_PI_2) * 2;
-                velocity.y += sin(-M_PI_2) * 2;
-
-                missile->SetAngle(angle + M_PI_2);
-                missile->SetPosition(position);
-                missile->SetMaxSpeed(15);
-                missile->SetVelocity(velocity);
-                //missile->SetTexture("Missile");
-                missile->SetSize(9, 20);
-            
-                Missile *missile_2 = new Missile("Missile", m_selected_target);
-                position = *m_player->GetPosition();
-                //position.y -= 50;
-                position.x -= cos(angle + M_PI_2) * 30;
-                position.y -= sin(angle + M_PI_2) * 30;
-                velocity.Mult(-1);
-                missile_2->SetAngle(angle - M_PI_2);
-                missile_2->SetPosition(position);
-                missile_2->SetMaxSpeed(10);
-                missile_2->SetVelocity(velocity);
-                //missile_2->SetTexture("Missile");
-                missile_2->SetSize(9, 20);
-
-                m_list_entity.push_back(missile);
-                m_list_entity.push_back(missile_2);
-            }
-            m_fire_delay++;
-        }
-        /*
-        if(m_player->CanFire() && m_targeting)
+        if(m_player->CanFire() && fired_missiles < NUM_MISSILES)
         {
             m_player->SetFire(false);
-            std::cout << "FIRE!" << std::endl;
-            Missile *missile = new Missile("Missile", m_selected_target);
-            missile->SetPosition(*m_player->GetPosition());
-            missile->SetSize(9, 20);
-            missile->SetMaxSpeed(10);
-            m_list_entity.push_back(missile);
+            fire = true;
         }
-        */
     }
     else 
     {
+        /*
         if(!m_player->CanFire())
         {
             m_player->SetFire(true);
             m_fire_delay = 30;
             std::cout << "We can fire again" << std::endl;
         }
+        */
     }
+
+    if(fired_missiles >= NUM_MISSILES)
+    {
+        fire = false;
+        fired_missiles = 0;
+        m_fire_delay = 10;
+        m_player->SetFire(true);
+    }
+
+    if(fire && fired_missiles < NUM_MISSILES)
+    {
+        if(m_fire_delay % 10 == 0)
+        {
+            Missile *missile = new Missile("Missile", m_selected_target);
+            Vector position = *m_player->GetPosition();
+            //position.y += 50;
+            float angle = m_player->GetAngle();
+            std::cout << "Angle: " << angle << std::endl;
+            position.x += cos(angle + M_PI_2) * 30;
+            position.y += sin(angle + M_PI_2) * 30;
+                
+            //Vector velocity = m_player->GetVelocity()->Copy();
+            Vector direction = Vector();
+            direction.x += cos(angle + M_PI_2);
+            direction.y += sin(angle + M_PI_2);
+            direction.Normalize();
+            direction.Mult(2);
+            missile->ApplyForce(direction);
+            missile->SetAngle(angle + M_PI_2);
+            missile->SetPosition(position);
+            missile->SetMaxSpeed(20);
+            missile->SetMaxForce(.08);
+            //missile->SetVelocity(velocity);
+            //missile->SetTexture("Missile");
+            missile->SetSize(9, 20);
+        
+            Missile *missile_2 = new Missile("Missile", m_selected_target);
+            position = *m_player->GetPosition();
+            //position.y -= 50;
+            position.x -= cos(angle + M_PI_2) * 30;
+            position.y -= sin(angle + M_PI_2) * 30;
+            direction.Mult(-1);
+            missile_2->ApplyForce(direction);
+            missile_2->SetAngle(angle - M_PI_2);
+            missile_2->SetPosition(position);
+            missile_2->SetMaxSpeed(20);
+            missile_2->SetMaxForce(.08);
+            //missile_2->SetVelocity(velocity);
+            //missile_2->SetTexture("Missile");
+            missile_2->SetSize(9, 20);
+            m_list_entity.push_back(missile);
+            m_list_entity.push_back(missile_2);
+            fired_missiles++;
+        }
+        m_fire_delay++;
+    }
+
 
     if(InputHandler::Instance()->IsMousePressed())
     {

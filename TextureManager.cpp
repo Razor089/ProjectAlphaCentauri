@@ -80,6 +80,29 @@ void TextureManager::DrawBackground(std::string id, int pos_x, int pos_y, float 
     SDL_RenderCopyEx(pRenderer, TextureMap[id], &srcRect, &dstRect, 0, NULL, flip);
 }
 
+void TextureManager::DrawParticle(std::string id, int pos_x, int pos_y, int src_x, int src_y, int src_w, int src_h, int dst_x, int dst_y, Uint8 ttl, SDL_Renderer *renderer, bool alpha_ttl)
+{
+    SDL_Rect srcRect;
+    SDL_Rect dstRect;
+
+    srcRect.x = src_x;
+    srcRect.y = src_y;
+    srcRect.w = src_w;
+    srcRect.h = src_h;
+    dstRect.w = dst_x + (10/(ttl + 1));
+    dstRect.h = dst_y + (10/(ttl + 1));
+    dstRect.x = pos_x - (dst_x / 2);
+    dstRect.y = pos_y - (dst_y / 2);
+
+    if(alpha_ttl)
+    {
+        SDL_SetTextureAlphaMod(TextureMap[id], ttl);
+    }
+
+    SDL_RenderCopyEx(renderer, TextureMap[id], &srcRect, &dstRect, 0, NULL, SDL_FLIP_NONE);
+
+}
+
 void TextureManager::DrawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* renderer)
 {
     SDL_Rect srcRect;
