@@ -4,8 +4,15 @@
 void Missile::Update()
 {
     ParticleManager::Instance()->GetParticle("MissileTrail")->SetOrigin(m_position);
-    ParticleManager::Instance()->GetParticle("MissileTrail")->AddParticle();
-    ParticleManager::Instance()->GetParticle("MissileTrail")->Update();
+    if(m_particle_delay)
+    {
+        m_particle_delay = false;
+        ParticleManager::Instance()->GetParticle("MissileTrail")->AddParticle();
+    }
+    else
+    {
+        m_particle_delay = true;
+    }
     if(m_velocity.Length() != 0)
     {
         m_last_angle = m_velocity.Heading();
@@ -23,10 +30,14 @@ void Missile::Update()
     {
         m_delay--;
     }
+
+    if(m_time_to_live <= 0)
+    {
+        m_dead = true;
+    }
 }
 
 void Missile::Draw()
 {
-    ParticleManager::Instance()->GetParticle("MissileTrail")->Draw();
     Entity::Draw();
 }

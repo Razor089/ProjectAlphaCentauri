@@ -12,7 +12,7 @@ void Particle::Update()
 void Particle::Draw()
 {
     // Drawin in alpha mode
-    TextureManager::Instance()->DrawParticle(m_texture, m_position.x, m_position.y, 0, 0, 135, 133, 20, 20, m_ttl, Engine::Instance()->GetRenderer(), true);
+    TextureManager::Instance()->DrawParticle(m_texture, m_position.x, m_position.y, 0, 0, 181, 181, 10, 10, m_angle, m_ttl, Engine::Instance()->GetRenderer(), true);
 }
 
 bool Particle::IsDead()

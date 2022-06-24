@@ -24,7 +24,7 @@ public:
     ParticleSystem(std::string texture) : m_texture(texture)
     {}
 
-    void AddParticle() { m_particles.push_back(new Particle(m_origin, 255, m_texture)); }
+    void AddParticle() {m_particles.push_back(new Particle(m_origin, 0, 150, m_texture)); }
     void SetOrigin(Vector origin) { m_origin = origin; }
 
     void Update();

@@ -17,6 +17,7 @@
 const int NUM_MISSILES = 5;
 int fired_missiles = 0;
 bool fire = false;
+Entity *background;
 
 void PlayState::Enter(StateMachine *sm)
 {
@@ -27,7 +28,7 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/centrifugal_station.png", "Station");
     TextureManager::Instance()->LoadTexture("graphic/Selezione.png", "Selection");
     TextureManager::Instance()->LoadTexture("graphic/frozenmoons/missile1.png", "Missile");
-    TextureManager::Instance()->LoadTexture("graphic/frozenmoons/shield2.png", "MissileTrail");
+    TextureManager::Instance()->LoadTexture("graphic/smoke_2.png", "MissileTrail");
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
@@ -46,7 +47,7 @@ void PlayState::Enter(StateMachine *sm)
     HUD_ship->SetSize(82, 84);
     HUD_ship->SetTexture("Ship");
 
-    Entity *background = new Entity("Space_1");
+    background = new Entity("Space_1");
     background->SetPosition(Vector(WIDTH/2, HEIGHT/2));
     background->SetSize(1280,1280);
 
@@ -60,7 +61,7 @@ void PlayState::Enter(StateMachine *sm)
     station->SetRotationSpeed(.2);
     station->SetTarget(entity);
 
-    m_list_entity.push_back(background);
+    //m_list_entity.push_back(background);
     m_list_entity.push_back(entity);
     m_list_entity.push_back(station);
     m_list_entity.push_back(HUD_ship);
@@ -193,18 +194,29 @@ void PlayState::Update(StateMachine *sm)
         m_player->GetVelocity()->Mult(0);
     }
 
+    ParticleManager::Instance()->GetParticle("MissileTrail")->Update();
+
     for(std::vector<Entity *>::iterator it = m_list_entity.begin(); it != m_list_entity.end(); ++it)
     {
         (*it)->Update();
+        if((*it)->IsDead())
+        {
+            delete (*it);
+            m_list_entity.erase(it);
+            --it;
+        }
     }
 }
 
 void PlayState::Execute(StateMachine *sm)
 {
+    background->Draw();
+    ParticleManager::Instance()->GetParticle("MissileTrail")->Draw();
     for(std::vector<Entity *>::iterator it = m_list_entity.begin(); it != m_list_entity.end(); ++it)
     {
         (*it)->Draw();
     }
+    
     if(m_targeting)
     {
         TextureManager::Instance()->DrawFrame("Selection", m_selected_target.x, m_selected_target.y, 465, 465, 150, 150, 1, 0, 0.785398, Engine::Instance()->GetRenderer());

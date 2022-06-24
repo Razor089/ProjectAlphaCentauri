@@ -34,6 +34,7 @@ protected:
     Vector m_target;
 
     bool m_await_input;
+    bool m_dead;
 
     std::string m_texture;
     std::string m_tag;
@@ -54,6 +55,7 @@ public:
                m_ammo(80),
                m_target(),
                m_await_input(false),
+               m_dead(false),
                m_texture(""),
                m_tag("Entity")
     {}
@@ -74,8 +76,12 @@ public:
                                   m_ammo(80),
                                   m_target(),
                                   m_await_input(false),
+                                  m_dead(false),
                                   m_texture(texture),
                                   m_tag("Entity")
+    {}
+
+    virtual ~Entity()
     {}
 
     void SetTexture(std::string texture) { m_texture = texture; }
@@ -105,6 +111,9 @@ public:
 
     void SetFire(bool value) { m_can_fire = value; }
     bool CanFire() const { return m_can_fire; }
+
+    void SetDead(bool value) { m_dead = value; }
+    bool IsDead() const { return m_dead; }
 
     void SetAmmo(int ammo) { m_ammo = ammo; }
     int GetAmmo() const { return m_ammo; }
