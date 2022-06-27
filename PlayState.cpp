@@ -142,8 +142,9 @@ void PlayState::Update(StateMachine *sm)
                 
             //Vector velocity = m_player->GetVelocity()->Copy();
             Vector direction = Vector();
-            direction.x += cos((angle + M_PI_2) * sin(rand() % 360));
-            direction.y += sin((angle + M_PI_2) * sin(rand() % 360));
+            direction.x += cos((angle + M_PI_2) * -sin(rand() % 45));
+            //srand((int)time(0) * 24);
+            direction.y += sin((angle + M_PI_2) * -sin(rand() % 45));
             direction.Normalize();
             direction.Mult(2);
             missile->ApplyForce(direction);
