@@ -8,6 +8,7 @@
 #include "ActionExit.hpp"
 #include "ActionNewGame.hpp"
 #include "GUIAnimatedBackground.hpp"
+#include "SoundManager.hpp"
 #include <iostream>
 #include <time.h>
 
@@ -23,6 +24,9 @@ void MainMenuState::Enter(StateMachine *sm)
     MessageHandler::Instance()->LoadFont("font/Andromeda.ttf", 32, "Andromeda");
     MessageHandler::Instance()->LoadFont("font/Omegacentauri.ttf", 32, "Centauri");
     MessageHandler::Instance()->LoadFont("font/ExonRegular.otf", 20, "DetailFont");
+
+    SoundManager::Instance()->LoadSound("sounds/BR/music/Atmospheric_Rise.ogg", "Music");
+    SoundManager::Instance()->PlaySound("Music");
 
     ActionManager::Instance()->RegisterAction("ActionExit", new ActionExit());
     ActionManager::Instance()->RegisterAction("ActionNewGame", new ActionNewGame());

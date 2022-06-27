@@ -36,12 +36,28 @@ bool SoundManager::LoadSound(std::string nome_file, std::string key, bool effect
 
 void SoundManager::PlaySound(std::string key)
 {
-
+    if(Mix_PlayingMusic() == 0)
+    {
+        Mix_PlayMusic(mappa_musiche[key], -1);
+    }
 }
 
 void SoundManager::StopSound(std::string key)
 {
-    
+    if(Mix_PlayingMusic() == 1)
+    {
+        Mix_HaltMusic();
+    }
+}
+
+void SoundManager::PlayEffect(std::string key)
+{
+    Mix_PlayChannel(-1, mappa_effetti[key], 0);
+}
+
+void SoundManager::StopEffect(std::string key)
+{
+    //Mix_HaltChannel(mappa_effetti[key]);
 }
 
 void SoundManager::Close()
