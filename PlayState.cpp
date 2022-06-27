@@ -3,9 +3,11 @@
 #include "MessageHandler.hpp"
 #include "InputHandler.hpp"
 #include "ParticleManager.hpp"
+#include "ParticleExplosion.hpp"
 #include "Engine.hpp"
 #include "Station.hpp"
 #include "Missile.hpp"
+#include "CollisionManager.hpp"
 #include <string>
 #include <sstream>
 #include <time.h>
@@ -29,6 +31,8 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/Selezione.png", "Selection");
     TextureManager::Instance()->LoadTexture("graphic/frozenmoons/missile1.png", "Missile");
     TextureManager::Instance()->LoadTexture("graphic/smoke_2.png", "MissileTrail");
+    TextureManager::Instance()->LoadTexture("graphic/Explosion_4.png", "Explosion");
+    TextureManager::Instance()->LoadTexture("graphic/Blue_Light_Effect.png", "BlueEffect");
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
@@ -55,7 +59,8 @@ void PlayState::Enter(StateMachine *sm)
     Station *station = new Station();
     int size = 350;
     station->SetSize(size, size);
-    station->SetTag("Enemy");
+    station->SetTag("Station");
+    station->SetRadius(100);
     station->SetTexture("Station");
     station->SetPosition(Vector((rand() % (WIDTH - size)) + size, (rand() % (HEIGHT - size)) + size));
     station->SetRotationSpeed(.2);
@@ -71,7 +76,8 @@ void PlayState::Enter(StateMachine *sm)
 
     m_fire_delay = 10;
 
-    ParticleManager::Instance()->AddParticle("MissileTrail", new ParticleSystem("MissileTrail"));
+    ParticleManager::Instance()->AddParticle("MissileTrail", new ParticleSystem("MissileTrail", 90));
+    ParticleManager::Instance()->AddParticle("Explosion", new ParticleSystem("Explosion", 130));
 }
 
 void PlayState::Update(StateMachine *sm)
@@ -112,6 +118,8 @@ void PlayState::Update(StateMachine *sm)
         */
     }
 
+    CollisionManager::Instance()->CollisionMissiles(m_list_entity);
+
     if(fired_missiles >= NUM_MISSILES)
     {
         fire = false;
@@ -146,6 +154,7 @@ void PlayState::Update(StateMachine *sm)
             //missile->SetVelocity(velocity);
             //missile->SetTexture("Missile");
             missile->SetSize(9, 20);
+            missile->SetRadius(4);
         
             Missile *missile_2 = new Missile("Missile", m_selected_target);
             position = *m_player->GetPosition();
@@ -161,6 +170,7 @@ void PlayState::Update(StateMachine *sm)
             //missile_2->SetVelocity(velocity);
             //missile_2->SetTexture("Missile");
             missile_2->SetSize(9, 20);
+            missile_2->SetRadius(4);
             m_list_entity.push_back(missile);
             m_list_entity.push_back(missile_2);
             fired_missiles++;
@@ -182,7 +192,7 @@ void PlayState::Update(StateMachine *sm)
 
     if(m_targeting)
     {
-        m_selected_target = *GetEntityByTag("Enemy")->GetPosition();
+        m_selected_target = *GetEntityByTag("Station")->GetPosition();
     }
 
     if(Vector::Distance(m_seek_target, *m_player->GetPosition()) <= 10 && m_seeking)
@@ -195,6 +205,7 @@ void PlayState::Update(StateMachine *sm)
     }
 
     ParticleManager::Instance()->GetParticle("MissileTrail")->Update();
+    ParticleManager::Instance()->GetParticle("Explosion")->Update();
 
     for(std::vector<Entity *>::iterator it = m_list_entity.begin(); it != m_list_entity.end(); ++it)
     {
@@ -217,6 +228,8 @@ void PlayState::Execute(StateMachine *sm)
         (*it)->Draw();
     }
     
+    ParticleManager::Instance()->GetParticle("Explosion")->Draw();
+
     if(m_targeting)
     {
         TextureManager::Instance()->DrawFrame("Selection", m_selected_target.x, m_selected_target.y, 465, 465, 150, 150, 1, 0, 0.785398, Engine::Instance()->GetRenderer());

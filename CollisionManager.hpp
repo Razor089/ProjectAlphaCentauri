@@ -23,6 +23,7 @@ public:
 
     void CollisionBounds(std::vector<Entity *> entity_list);
     void CollisionShip(Entity *ship, std::vector<Entity *> entity_list);
+    void CollisionMissiles(std::vector<Entity *> entity_list);
 };
 
 #endif

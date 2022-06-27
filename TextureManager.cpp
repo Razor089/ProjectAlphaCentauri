@@ -103,6 +103,29 @@ void TextureManager::DrawParticle(std::string id, int pos_x, int pos_y, int src_
 
 }
 
+void TextureManager::DrawParticleWithColor(std::string id, int pos_x, int pos_y, int src_x, int src_y, int src_w, int src_h, int dst_w, int dst_h, int red, int green, int blue, float angle, Uint8 ttl, SDL_Renderer *renderer, bool alpha_ttl)
+{
+    SDL_Rect srcRect;
+    SDL_Rect dstRect;
+
+    srcRect.x = src_x;
+    srcRect.y = src_y;
+    srcRect.w = src_w;
+    srcRect.h = src_h;
+    dstRect.w = dst_w;
+    dstRect.h = dst_h;
+    dstRect.x = pos_x - (dst_w / 2);
+    dstRect.y = pos_y - (dst_h / 2);
+
+    if(alpha_ttl)
+    {
+        SDL_SetTextureAlphaMod(TextureMap[id], ttl);
+    }
+
+    SDL_SetTextureColorMod(TextureMap[id], red, green, blue);
+    SDL_RenderCopyEx(renderer, TextureMap[id], &srcRect, &dstRect, angle, NULL, SDL_FLIP_NONE);
+}
+
 void TextureManager::DrawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* renderer)
 {
     SDL_Rect srcRect;
@@ -118,4 +141,13 @@ void TextureManager::DrawTile(std::string id, int margin, int spacing, int x, in
 
     //std::cout << "Trying Rendering: " << TextureMap[id] << std::endl;
     SDL_RenderCopyEx(renderer, TextureMap[id], &srcRect, &dstRect, 0, 0, SDL_FLIP_NONE);
+}
+
+void TextureManager::Close()
+{
+    for(std::map<std::string, SDL_Texture *>::iterator it = TextureMap.begin(); it != TextureMap.end(); ++it)
+    {
+        SDL_DestroyTexture((*it).second);
+    }
+    TextureMap.clear();
 }

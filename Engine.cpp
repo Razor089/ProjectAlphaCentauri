@@ -1,13 +1,16 @@
 #include "Engine.hpp"
 #include "InputHandler.hpp"
+#include "SoundManager.hpp"
+#include "TextureManager.hpp"
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <iostream>
 
 Engine* Engine::pInstance = NULL;
 
 bool Engine::Init()
 {
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         std::cout << "Cannot initialize SDL; Error: " << SDL_GetError() << std::endl;
         return false;
@@ -41,6 +44,13 @@ bool Engine::Init()
         std::cout << "Cannot Initialize SDL_TTF; Error: " << SDL_GetError() << std::endl;
         return false;
     }
+
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        std::cout << "Cannot Initialize SDL_Mixer; Error: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
     std::cout << "Init Success!" << std::endl;
     return true;
 }
@@ -64,6 +74,10 @@ void Engine::Close()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    SoundManager::Instance()->Close();
+    TextureManager::Instance()->Close();
+    Mix_Quit();
+    IMG_Quit();
     SDL_Quit();
 }
 

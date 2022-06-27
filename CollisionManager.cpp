@@ -1,5 +1,7 @@
 #include "CollisionManager.hpp"
 #include "Engine.hpp"
+#include "ParticleManager.hpp"
+#include "Missile.hpp"
 
 CollisionManager *CollisionManager::m_instance = 0;
 
@@ -39,6 +41,37 @@ void CollisionManager::CollisionShip(Entity *ship, std::vector<Entity *> entity_
         else
         {
             enemy->SetHit(false);
+        }
+    }
+}
+
+void CollisionManager::CollisionMissiles(std::vector<Entity *> entity_list)
+{
+    for(std::vector<Entity *>::iterator it = entity_list.begin(); it != entity_list.end(); ++it)
+    {
+        if((*it)->GetTag() == "Missile")
+        {
+            for(std::vector<Entity *>::iterator enemy = entity_list.begin(); enemy != entity_list.end(); ++enemy)
+            {
+                if((*enemy)->GetTag() == "Station")
+                {
+                    // Calculate distance
+                    // if in range
+                    // collide!
+
+                    float radius_sum = (*it)->GetRadius() + (*enemy)->GetRadius();
+                    if(Vector::Distance(*(*enemy)->GetPosition(), *(*it)->GetPosition()) < radius_sum)
+                    {
+                        Missile *missile = dynamic_cast<Missile *>((*it));
+                        ParticleManager::Instance()->GetParticle("Explosion")->SetOrigin(*missile->GetPosition());
+                        ParticleManager::Instance()->GetParticle("Explosion")->AddExplosion();
+                        ParticleManager::Instance()->GetParticle("Explosion")->AddExplosion();
+                        ParticleManager::Instance()->GetParticle("Explosion")->AddExplosion();
+                        ParticleManager::Instance()->GetParticle("Explosion")->AddFlare();
+                        missile->SetDead(true);
+                    }
+                }
+            }
         }
     }
 }

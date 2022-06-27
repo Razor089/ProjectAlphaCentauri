@@ -1,0 +1,14 @@
+Psiyon from the Starsector forums made the following:
+Running Dark
+TiandongFleetInteractionFriendly
+TiandongFleetInteractionHostile
+TiandongFleetInteractionNeutral
+TiandongMarketInteractionFriendly
+TiandongMarketInteractionHostile
+TiandongMarketInteractionNeutral
+
+http://bgregory.bandcamp.com/
+https://soundcloud.com/bgregory-3
+http://fractalsoftworks.com/forum/index.php?action=profile;u=398
+
+The sound track possibly will change over time as additional content is added to the mod.

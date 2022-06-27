@@ -9,7 +9,7 @@
 
 class Particle
 {
-private:
+protected:
     Vector m_position;
     Vector m_velocity;
     Vector m_acceleration;
@@ -27,13 +27,15 @@ public:
     Particle(Vector position, float angle, float ttl, std::string texture) : m_position(position), m_velocity(0,0), m_acceleration(0,0), m_texture(texture), m_angle(angle), m_ttl(ttl)
     {}
 
+    virtual ~Particle() {}
+
     void SetTTL(float ttl) { m_ttl = ttl; }
     float GetTTL() { return m_ttl; }
     void SetAngle(float angle) { m_angle = angle; }
     float GetAngle() const { return m_angle; }
 
-    void Update();
-    void Draw();
+    virtual void Update();
+    virtual void Draw();
 
     bool IsDead();
 };
