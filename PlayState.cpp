@@ -8,6 +8,7 @@
 #include "Station.hpp"
 #include "Missile.hpp"
 #include "CollisionManager.hpp"
+#include "SoundManager.hpp"
 #include <string>
 #include <sstream>
 #include <time.h>
@@ -33,6 +34,12 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/smoke_2.png", "MissileTrail");
     TextureManager::Instance()->LoadTexture("graphic/Explosion_4.png", "Explosion");
     TextureManager::Instance()->LoadTexture("graphic/Blue_Light_Effect.png", "BlueEffect");
+
+    SoundManager::Instance()->LoadSound("sounds/explosion_missile_01.ogg", "ExplosionMissile1", true);
+    SoundManager::Instance()->LoadSound("sounds/explosion_missile_02.ogg", "ExplosionMissile2", true);
+    SoundManager::Instance()->LoadSound("sounds/explosion_secondary_02.ogg", "ExplosionSecondary2", true);
+    SoundManager::Instance()->LoadSound("sounds/hammer_fire_01.ogg", "HammerFire1", true);
+    SoundManager::Instance()->LoadSound("sounds/harpoon_fire_01.ogg", "HarpoonFire1", true);
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
@@ -175,6 +182,7 @@ void PlayState::Update(StateMachine *sm)
             m_list_entity.push_back(missile);
             m_list_entity.push_back(missile_2);
             fired_missiles++;
+            SoundManager::Instance()->PlayEffect("HammerFire1");
         }
         m_fire_delay++;
     }

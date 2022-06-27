@@ -1,6 +1,7 @@
 #include "CollisionManager.hpp"
 #include "Engine.hpp"
 #include "ParticleManager.hpp"
+#include "SoundManager.hpp"
 #include "Missile.hpp"
 
 CollisionManager *CollisionManager::m_instance = 0;
@@ -69,6 +70,7 @@ void CollisionManager::CollisionMissiles(std::vector<Entity *> entity_list)
                         ParticleManager::Instance()->GetParticle("Explosion")->AddExplosion();
                         ParticleManager::Instance()->GetParticle("Explosion")->AddFlare();
                         missile->SetDead(true);
+                        SoundManager::Instance()->PlayEffect("ExplosionMissile2");
                     }
                 }
             }
