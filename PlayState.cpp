@@ -7,6 +7,7 @@
 #include "Engine.hpp"
 #include "Station.hpp"
 #include "Missile.hpp"
+#include "Weapon.hpp"
 #include "CollisionManager.hpp"
 #include "SoundManager.hpp"
 #include <string>
@@ -34,6 +35,7 @@ void PlayState::Enter(StateMachine *sm)
     TextureManager::Instance()->LoadTexture("graphic/smoke_2.png", "MissileTrail");
     TextureManager::Instance()->LoadTexture("graphic/Explosion_4.png", "Explosion");
     TextureManager::Instance()->LoadTexture("graphic/Blue_Light_Effect.png", "BlueEffect");
+    TextureManager::Instance()->LoadTexture("graphic/Light_machinegun_turret.png", "LightMachineGun");
 
     SoundManager::Instance()->LoadSound("sounds/explosion_missile_01.ogg", "ExplosionMissile1", true);
     SoundManager::Instance()->LoadSound("sounds/explosion_missile_02.ogg", "ExplosionMissile2", true);
@@ -43,6 +45,7 @@ void PlayState::Enter(StateMachine *sm)
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
+    // Player Ship
     Entity *entity = new Entity();
     entity->SetPosition(Vector(WIDTH/2, HEIGHT/2));
     entity->SetSize(62, 64);
@@ -51,6 +54,17 @@ void PlayState::Enter(StateMachine *sm)
     entity->SetMass(10);
     entity->SetCoefficentFriction(0.05);
     entity->SetTexture("Ship");
+
+    // Weapons
+    Vector weapon_pos = *entity->GetPosition();
+    Vector weapon_2_pos = *entity->GetPosition();
+    weapon_pos.x += 10;
+    weapon_2_pos.x -= 10;
+    Weapon *machine_gun_1 = new Weapon(weapon_pos, 10, 26, 26, 26, 26, 5, "LightMachineGun");
+    Weapon *machine_gun_2 = new Weapon(weapon_2_pos, -10, 26, 26, 26, 26, 5, "LightMachineGun");    
+
+    entity->SetWeapon1(machine_gun_1);
+    entity->SetWeapon2(machine_gun_2);
     m_player = entity;
 
     Entity *HUD_ship = new Entity();

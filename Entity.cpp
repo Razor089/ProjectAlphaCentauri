@@ -9,6 +9,8 @@
 void Entity::Draw()
 {
     TextureManager::Instance()->DrawFrame(m_texture, (int)m_position.x, (int)m_position.y, 1401, 1449, size_x, size_y, 1, 0, m_last_angle, Engine::Instance()->GetRenderer(), SDL_FLIP_NONE);
+    if(m_weapon_1 != 0) m_weapon_1->Draw();
+    if(m_weapon_2 != 0) m_weapon_2->Draw();
 }
 
 void Entity::Update()
@@ -24,6 +26,8 @@ void Entity::Update()
         m_last_angle = m_velocity.Heading();
     }
     Move();
+    if(m_weapon_1 != 0) m_weapon_1->UpdatePos(this);
+    if(m_weapon_2 != 0) m_weapon_2->UpdatePos(this);
 }
 
 void Entity::Seek(Vector target)

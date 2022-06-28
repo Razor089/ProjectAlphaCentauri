@@ -2,11 +2,14 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 #include "Vector.hpp"
+#include "Weapon.hpp"
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
 
 const int MAX_AMMO = 20;
+
+class Weapon;
 
 class Entity
 {
@@ -38,6 +41,9 @@ protected:
 
     std::string m_texture;
     std::string m_tag;
+
+    Weapon *m_weapon_1;
+    Weapon *m_weapon_2;
 public:
     Entity() : m_position(0,0),
                m_velocity(0,0),
@@ -57,7 +63,9 @@ public:
                m_await_input(false),
                m_dead(false),
                m_texture(""),
-               m_tag("Entity")
+               m_tag("Entity"),
+               m_weapon_1(0),
+               m_weapon_2(0)
     {}
 
     Entity(std::string texture) : m_position(0,0),
@@ -78,7 +86,9 @@ public:
                                   m_await_input(false),
                                   m_dead(false),
                                   m_texture(texture),
-                                  m_tag("Entity")
+                                  m_tag("Entity"),
+                                  m_weapon_1(0),
+                                  m_weapon_2(0)
     {}
 
     virtual ~Entity()
@@ -105,6 +115,9 @@ public:
     void SetTag(std::string tag) { m_tag = tag; }
     void SetAngle(float angle) { m_last_angle = angle; }
     void SetMaxForce(float force) { m_max_force = force; }
+
+    void SetWeapon1(Weapon *weapon_1) { m_weapon_1 = weapon_1; }
+    void SetWeapon2(Weapon *weapon_2) { m_weapon_2 = weapon_2; }
     
     void SetHit(bool hit) { m_hit = hit; }
     bool IsHit() const { return m_hit; }
