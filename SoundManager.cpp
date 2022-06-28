@@ -42,7 +42,7 @@ void SoundManager::PlaySound(std::string key)
     }
 }
 
-void SoundManager::StopSound(std::string key)
+void SoundManager::StopSound()
 {
     if(Mix_PlayingMusic() == 1)
     {
@@ -62,6 +62,7 @@ void SoundManager::StopEffect(std::string key)
 
 void SoundManager::Close()
 {
+    StopSound();
     for(std::map<std::string, Mix_Chunk *>::iterator it = mappa_effetti.begin(); it != mappa_effetti.end(); ++it)
     {
         Mix_FreeChunk((*it).second);

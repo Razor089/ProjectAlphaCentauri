@@ -25,7 +25,7 @@ public:
     bool LoadSound(std::string nome_file, std::string key, bool effect = false);
 
     void PlaySound(std::string key);
-    void StopSound(std::string key);
+    void StopSound();
 
     void PlayEffect(std::string key);
     void StopEffect(std::string key);
