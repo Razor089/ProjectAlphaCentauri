@@ -37,11 +37,10 @@ int main(int argc, char* argv[])
 
         Engine::Instance()->HandleInputs();
         Engine::Instance()->Clear();
-        Engine::Instance()->GetStateMachine()->Update();
-        //CollisionManager::Instance()->CollisionBounds(enemy_list);
-        //CollisionManager::Instance()->CollisionShip(entity, station->GetListFighters());
 
+        Engine::Instance()->GetStateMachine()->Update();
         Engine::Instance()->GetStateMachine()->Execute();
+        
         Engine::Instance()->Draw();
 
         frameTime = SDL_GetTicks() - frameStart;
