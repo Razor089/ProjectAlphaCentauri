@@ -12,6 +12,7 @@ typedef struct Rectangle2D
 
     inline Rectangle2D() : size(1, 1) {}
     inline Rectangle2D(const Point2D &o, const Vector &s) : origin(o), size(s) {}
+    inline Rectangle2D(const int x, const int y, const int width, const int height) : origin(x,y), size(width, height) {}
 
 } Rectangle2D;
 

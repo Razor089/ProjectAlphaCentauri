@@ -4,7 +4,9 @@
 #include "State.hpp"
 #include "StateMachine.hpp"
 #include "Entity.hpp"
+#include "GUIEntity.hpp"
 #include "Vector.hpp"
+#include "QuadTree.hpp"
 #include <vector>
 
 class PlayState : public State<StateMachine>
@@ -21,6 +23,7 @@ public:
     Vector GetSelectedTarget() { return m_selected_target; }
 
     std::vector<Entity *> m_list_entity;
+    std::vector<GUIEntity *> m_list_gui;
 private:
     Entity *GetEntityByTag(std::string tag);
 
@@ -32,6 +35,9 @@ private:
     int m_fire_delay;
 
     Entity *m_player;
+    QuadTree *quadTree;
+    QuadTreeData *player_data;
+    QuadTreeData *station_data;
 };
 
 #endif

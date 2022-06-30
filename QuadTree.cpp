@@ -152,7 +152,7 @@ void QuadTreeNode::Shake()
             }
             else
             {
-                contents.insert(contents.end(), processing->contents.begin(), processing->contents.end());
+    //            contents.insert(contents.end(), processing->contents.begin(), processing->contents.end());
             }
             process.pop();
         }
@@ -246,7 +246,7 @@ std::vector<QuadTreeData *> QuadTreeNode::Query(const Rectangle2D &area)
             std::vector<QuadTreeData *> recurse = children[i].Query(area);
             if(recurse.size() > 0)
             {
-                result.insert(result.end(), recurse.begin(), recurse.end());
+   //             result.insert(result.end(), recurse.begin(), recurse.end());
             }
         }
     }

@@ -37,6 +37,8 @@ public:
                                      m_animated(false)
     {}
 
+    virtual ~GUIEntity() {}
+
     void SetTexture(std::string texture) { m_texture = texture; }
     virtual void SetSize(int size_x, int size_y) { m_size_x = size_x; m_size_y = size_y; }
     virtual void SetOriginSize(int size_x, int size_y) { m_src_x = size_x; m_src_y = size_y; }

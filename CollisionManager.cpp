@@ -71,6 +71,8 @@ void CollisionManager::CollisionMissiles(std::vector<Entity *> entity_list)
                         ParticleManager::Instance()->GetParticle("Explosion")->AddFlare();
                         missile->SetDead(true);
                         SoundManager::Instance()->PlayEffect("ExplosionMissile2");
+
+                        (*enemy)->Damage(5);
                     }
                 }
             }

@@ -29,6 +29,8 @@ protected:
     float m_radius;
     float m_last_angle;
 
+    int m_life;
+
     bool m_hit;
     bool m_can_fire;
 
@@ -56,6 +58,7 @@ public:
                m_max_force(.2),
                m_radius(0),
                m_last_angle(0),
+               m_life(100),
                m_hit(false),
                m_can_fire(true),
                m_ammo(80),
@@ -79,6 +82,7 @@ public:
                                   m_max_force(.2),
                                   m_radius(0),
                                   m_last_angle(0),
+                                  m_life(100),
                                   m_hit(false),
                                   m_can_fire(true),
                                   m_ammo(80),
@@ -118,9 +122,14 @@ public:
 
     void SetWeapon1(Weapon *weapon_1) { m_weapon_1 = weapon_1; }
     void SetWeapon2(Weapon *weapon_2) { m_weapon_2 = weapon_2; }
+
+    void SetLife(int life) { m_life = life; }
+    int GetLife() const { return m_life; }
+    bool IsLive() { return m_life <= 0; }
     
     void SetHit(bool hit) { m_hit = hit; }
     bool IsHit() const { return m_hit; }
+    void Damage(int dmg) { m_life -= dmg; }
 
     void SetFire(bool value) { m_can_fire = value; }
     bool CanFire() const { return m_can_fire; }

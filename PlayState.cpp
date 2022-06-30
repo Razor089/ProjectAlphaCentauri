@@ -10,6 +10,8 @@
 #include "Weapon.hpp"
 #include "CollisionManager.hpp"
 #include "SoundManager.hpp"
+#include "Geometry2D.hpp"
+#include "GUIRect.hpp"
 #include <string>
 #include <sstream>
 #include <time.h>
@@ -22,6 +24,7 @@ const int NUM_MISSILES = 5;
 int fired_missiles = 0;
 bool fire = false;
 Entity *background;
+GUIRect *lifebar;
 
 void PlayState::Enter(StateMachine *sm)
 {
@@ -45,6 +48,9 @@ void PlayState::Enter(StateMachine *sm)
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
 
+    // Quad Tree initialization
+    quadTree = new QuadTree(Rectangle2D(0, 0, WIDTH, HEIGHT));
+
     // Player Ship
     Entity *entity = new Entity();
     entity->SetPosition(Vector(WIDTH/2, HEIGHT/2));
@@ -54,6 +60,8 @@ void PlayState::Enter(StateMachine *sm)
     entity->SetMass(10);
     entity->SetCoefficentFriction(0.05);
     entity->SetTexture("Ship");
+    player_data = new QuadTreeData(entity, Rectangle2D(Point2D(0,0), Vector(entity->GetSizeX(), entity->GetSizeY())));
+    quadTree->Insert(*player_data);
 
     // Weapons
     Vector weapon_pos = *entity->GetPosition();
@@ -86,6 +94,8 @@ void PlayState::Enter(StateMachine *sm)
     station->SetPosition(Vector((rand() % (WIDTH - size)) + size, (rand() % (HEIGHT - size)) + size));
     station->SetRotationSpeed(.2);
     station->SetTarget(entity);
+    station_data = new QuadTreeData(station, Rectangle2D(Point2D(0,0), Vector(size, size)));
+    quadTree->Insert(*station_data);
 
     //m_list_entity.push_back(background);
     m_list_entity.push_back(entity);
@@ -99,10 +109,24 @@ void PlayState::Enter(StateMachine *sm)
 
     ParticleManager::Instance()->AddParticle("MissileTrail", new ParticleSystem("MissileTrail", 90));
     ParticleManager::Instance()->AddParticle("Explosion", new ParticleSystem("Explosion", 130));
+
+    // GUI 
+    GUIRect *enemy_life = new GUIRect(Vector(WIDTH/2, 20), Vector(70, 20));
+    enemy_life->SetColor(0, 200, 0);
+    enemy_life->SetMode(CENTER_POS);
+
+    lifebar = new GUIRect();
+
+    m_list_gui.push_back(enemy_life);
 }
 
 void PlayState::Update(StateMachine *sm)
 {
+
+    for(std::vector<GUIEntity *>::iterator it = m_list_gui.begin(); it != m_list_gui.end(); ++it)
+    {
+        (*it)->Update();
+    }
 
     if(InputHandler::Instance()->IsKeyDown(SDL_SCANCODE_ESCAPE))
     {
@@ -215,7 +239,12 @@ void PlayState::Update(StateMachine *sm)
 
     if(m_targeting)
     {
-        m_selected_target = *GetEntityByTag("Station")->GetPosition();
+        Entity *station = GetEntityByTag("Station");
+        m_selected_target = *station->GetPosition();
+        Vector lifebar_pos = Vector(m_selected_target.x - 200, m_selected_target.y - 50);
+        lifebar->SetPosition(lifebar_pos);
+        lifebar->SetMode(CENTER_POS);
+        lifebar->SetSize(100 * (station->GetLife() / 100.f), 5);
     }
 
     if(Vector::Distance(m_seek_target, *m_player->GetPosition()) <= 10 && m_seeking)
@@ -240,6 +269,7 @@ void PlayState::Update(StateMachine *sm)
             --it;
         }
     }
+   // quadTree->Update(*player_data);
 }
 
 void PlayState::Execute(StateMachine *sm)
@@ -256,6 +286,13 @@ void PlayState::Execute(StateMachine *sm)
     if(m_targeting)
     {
         TextureManager::Instance()->DrawFrame("Selection", m_selected_target.x, m_selected_target.y, 465, 465, 150, 150, 1, 0, 0.785398, Engine::Instance()->GetRenderer());
+        // Drawing also the station lifebar
+        lifebar->Draw();
+    }
+
+    for(std::vector<GUIEntity *>::iterator it = m_list_gui.begin(); it != m_list_gui.end(); ++it)
+    {
+        (*it)->Draw();
     }
 
     std::stringstream ss, shield;
