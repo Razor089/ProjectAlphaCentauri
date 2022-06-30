@@ -243,7 +243,7 @@ void PlayState::Update(StateMachine *sm)
         m_selected_target = *station->GetPosition();
         Vector lifebar_pos = Vector(m_selected_target.x - 200, m_selected_target.y - 50);
         lifebar->SetPosition(lifebar_pos);
-        lifebar->SetMode(CENTER_POS);
+        lifebar->SetMode(CORNER_POS);
         lifebar->SetSize(100 * (station->GetLife() / 100.f), 5);
     }
 
