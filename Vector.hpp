@@ -112,4 +112,22 @@ public:
     }
 };
 
+class Vector3
+{
+public:
+    float x;
+    float y;
+    float z;
+
+    Vector3() : x(0), y(0), z(0) {}
+    Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+
+    Vector3 operator+(const Vector3 &v2) { return Vector3(this->x + v2.x, this->y + v2.y, this->z + v2.z); }
+    Vector3 operator-(const Vector3 &v2) { return Vector3(this->x - v2.x, this->y - v2.y, this->z - v2.z); }
+    Vector3 operator*(const float x) { return Vector3(this->x * x, this->y * x, this->z * z); }
+    Vector3 operator/(const float x) { return Vector3(this->x / x, this->y / x, this->z / x); }
+    bool operator==(const Vector3 &v2) { return this->x == v2.x && this->y == v2.y && this->z == v2.z; }
+    bool operator!=(const Vector3 &v2) { return this->x != v2.x || this->y != v2.y || this->z != v2.z; }
+};
+
 #endif // !VECTOR_H

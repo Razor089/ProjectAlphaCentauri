@@ -47,6 +47,8 @@ void PlayState::Enter(StateMachine *sm)
     SoundManager::Instance()->LoadSound("sounds/harpoon_fire_01.ogg", "HarpoonFire1", true);
 
     MessageHandler::Instance()->LoadFont("font/DS-DIGI.TTF", 32, "Digital");
+    MessageHandler::Instance()->LoadFont("font/ExonRegular.otf", 10, "DetailFont_10");
+    MessageHandler::Instance()->LoadFont("font/ExonRegular.otf", 15, "DetailFont_15");
 
     // Quad Tree initialization
     quadTree = new QuadTree(Rectangle2D(0, 0, WIDTH, HEIGHT));
@@ -236,17 +238,12 @@ void PlayState::Update(StateMachine *sm)
     {
         m_player->Seek(m_seek_target);
     }
-
+/*
     if(m_targeting)
     {
         Entity *station = GetEntityByTag("Station");
-        m_selected_target = *station->GetPosition();
-        Vector lifebar_pos = Vector(m_selected_target.x - 200, m_selected_target.y - 50);
-        lifebar->SetPosition(lifebar_pos);
-        lifebar->SetMode(CORNER_POS);
-        lifebar->SetSize(100 * (station->GetLife() / 100.f), 5);
     }
-
+*/
     if(Vector::Distance(m_seek_target, *m_player->GetPosition()) <= 10 && m_seeking)
     {
         m_seeking = false;
@@ -300,6 +297,21 @@ void PlayState::Execute(StateMachine *sm)
     shield << "Shield: " << 100 << "%";
     MessageHandler::Instance()->PrintText(Engine::Instance()->GetRenderer(), ss.str(), "Digital", Vector(112, 20));
     MessageHandler::Instance()->PrintText(Engine::Instance()->GetRenderer(), shield.str(), "Digital", Vector(112, 52));
+
+    // messages
+    if(m_targeting)
+    {
+        Entity *station = GetEntityByTag("Station");
+        m_selected_target = *station->GetPosition();
+        Vector lifebar_pos = Vector(m_selected_target.x - 200, m_selected_target.y - 50);
+        lifebar->SetPosition(lifebar_pos);
+        lifebar->SetColor(140, 64, 30);
+        lifebar->SetMode(CORNER_POS);
+        lifebar->SetSize(100 * (station->GetLife() / 100.f), 5);
+        std::stringstream ss;
+        ss << "Hull: " << station->GetLife();
+        MessageHandler::Instance()->PrintColorText(Engine::Instance()->GetRenderer(), ss.str(), "DetailFont_10", ORANGE, Vector(lifebar_pos.x, lifebar_pos.y - 10), CORNER);
+    }
 }
 
 void PlayState::Exit(StateMachine *sm)
